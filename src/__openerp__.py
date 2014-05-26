@@ -6,6 +6,7 @@
     'depends' : ['base_setup','base','jakc_itms'],
     'init_xml' : [],
     'data' : [			
+        'security/ir.model.access.csv',
         'jakc_assets_view.xml',				
     ],
     'installable': True,
