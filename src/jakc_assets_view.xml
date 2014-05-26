@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="windows-1252"?>
+<openerp>
+    <data>
+	<menuitem name="Assets" id="base.assets_menu" parent="jakc_itms.itms_main_menu"/>
+        
+        <!-- ASSETS/TYPE -->
+		
+        <record model="ir.ui.view" id="view_asset_type_form">
+            <field name="name">asset.type.form</field>
+            <field name="model">asset.type</field>						
+            <field name="type">form</field>						
+            <field name="arch" type="xml">
+                <form string="Asset Type">  
+                    <group>                            
+                        <field name="type_id"/>         
+                        <field name="name"/>                            
+                    </group>
+                </form>
+            </field>
+        </record>
+		
+        <record model="ir.ui.view" id="view_asset_type_tree">
+            <field name="name">asset.type.tree</field>
+            <field name="model">asset.type</field>			
+            <field name="type">tree</field>						
+            <field name="arch" type="xml">
+                <tree string="Asset Type">
+                    <field name="type_id"/>
+                    <field name="name"/>		
+                </tree>
+            </field>
+        </record>
+        
+        <!-- ASSETS/STATUS -->
+		
+        <record model="ir.ui.view" id="view_asset_status_form">
+            <field name="name">asset.status.form</field>
+            <field name="model">asset.status</field>						
+            <field name="type">form</field>						
+            <field name="arch" type="xml">
+                <form string="Asset Status">  
+                    <group>                            
+                        <field name="name"/>                            
+                    </group>
+                </form>
+            </field>
+        </record>
+		
+        <record model="ir.ui.view" id="view_asset_status_tree">
+            <field name="name">asset.status.tree</field>
+            <field name="model">asset.status</field>			
+            <field name="type">tree</field>						
+            <field name="arch" type="xml">
+                <tree string="Asset Status">
+                    <field name="name"/>		
+                </tree>
+            </field>
+        </record>
+                
+        <!-- ASSETS/ASSETS -->
+		
+        <record model="ir.ui.view" id="view_asset_assets_form">
+            <field name="name">asset.assets.form</field>
+            <field name="model">asset.assets</field>						
+            <field name="type">form</field>						
+            <field name="arch" type="xml">
+                <form string="Assets">  
+                    <group colspan="4">                            
+                        <field name="barcode"/>
+                        <field name="name"/>
+                        <field name="type"/>
+                        <field name="status"/>
+                        <field name="label"/>
+                    </group>
+                    <notebook colspan="4">
+                        <page string="Product">
+                            <field name="model"/>
+                            <field name="serial_number"/>
+                            <field name="vendor"/>
+                        </page>
+                        <page string="Purchase">
+                            <field name="purchase_order"/>
+                            <field name="purchase_date"/>
+                            <field name="supplier"/>
+                            <field name="warranty"/>
+                            <field name="decomission_date"/>
+                        </page>
+                        <page string="Owner">
+                            <field name="company"/>
+                            <field name="department"/>
+                            <field name="owner"/>
+                            <field name="login_name"/>
+                        </page>
+                        <page string="Maintenance">
+                            <field name="ismaintenance"/>
+                            <field name="maint_owner"/>
+                            <field name="repeat"/>
+                            <field name="maint_day"/>
+                            <field name="maint_month"/>
+                            <field name="maint_date"/>
+                            <field name="pi_month"/>
+                            <field name="pi_date"/>
+                        </page>
+                    </notebook>
+                </form>
+            </field>
+        </record>
+		
+        <record model="ir.ui.view" id="view_asset_assets_tree">
+            <field name="name">asset.assets.tree</field>
+            <field name="model">asset.assets</field>			
+            <field name="type">tree</field>						
+            <field name="arch" type="xml">
+                <tree string="Assets">
+                    <field name="barcode"/>                            
+                    <field name="name"/>                            
+                    <field name="type"/>                           
+                    <field name="company"/>                           
+                    <field name="department"/>                           
+                    <field name="owner"/>  		
+                    <field name="status"/>  		
+                </tree>
+            </field>
+        </record>
+                
+        <!-- ASSET|SEARCH VIEW  -->
+
+        <record id="view_assets_filter" model="ir.ui.view">
+            <field name="name">Assets Search</field>
+            <field name="model">asset.assets</field>
+            <field name="arch" type="xml">
+                <search string="Search Assets">                    
+                    <field name="barcode"/>                    
+                    <field name="department"/>                    
+                    <field name="status"/>                    
+                    <field name="maint_month"/>                    
+                    <field name="pi_month"/>                                        
+                    <group expand="0" string="Group By...">
+                        <filter string="Department" icon="terp-partner" domain="[]" help="Status" context="{'group_by':'department'}" />
+                        <filter string="Status" icon="terp-partner" domain="[]" help="Status" context="{'group_by':'status'}" />
+                        <filter string="Maintenance Month" icon="terp-partner" domain="[]" help="Maintenance Month" context="{'group_by':'maint_month'}" />                                                                                                
+                        <filter string="PI Month" icon="terp-partner" domain="[]" help="PI Month" context="{'group_by':'pi_month'}" />                                                                                                
+                    </group>
+                </search>
+            </field>
+        </record>        
+                                        
+        <!-- ASSETS/ACTION -->
+	<record model="ir.actions.act_window" id="action_asset_type">
+            <field name="name">Asset Type</field>
+            <field name="res_model">asset.type</field>
+            <field name="view_mode">tree,form</field>
+        </record>		
+        
+        <record model="ir.actions.act_window" id="action_asset_status">
+            <field name="name">Asset Status</field>
+            <field name="res_model">asset.status</field>
+            <field name="view_mode">tree,form</field>
+        </record>		                
+        
+        <record model="ir.actions.act_window" id="action_asset_assets">
+            <field name="name">Assets</field>
+            <field name="res_model">asset.assets</field>
+            <field name="view_mode">tree,form</field>
+        </record>	
+                        
+        
+        <!-- ASSETS/MENU -->        
+        <menuitem id="asset_type_menu" name="Type" parent="base.assets_menu"  action="action_asset_type" sequence="1"/>
+        <menuitem id="asset_status_menu" name="Status" parent="base.assets_menu"  action="action_asset_status" sequence="2"/> 
+        <menuitem id="asset_assets_menu" name="Assets" parent="base.assets_menu"  action="action_asset_assets" sequence="3"/>        
+        	
+    </data>                
+</openerp>

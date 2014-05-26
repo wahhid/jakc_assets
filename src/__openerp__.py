@@ -1,0 +1,14 @@
+{
+    'name' : 'Assets Management',
+    'version' : '1.0',
+    'author' : 'JakC',
+    'category' : 'Generic Modules/Assets Management',
+    'depends' : ['base_setup','base','jakc_itms'],
+    'init_xml' : [],
+    'data' : [			
+        'jakc_assets_view.xml',				
+    ],
+    'installable': True,
+    'auto_install': False,
+    'application': True,
+}
