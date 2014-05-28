@@ -80,11 +80,17 @@ class asset_assets(osv.osv):
             ('12','December'),
         )    
     _columns = {
-        'barcode': fields.char('Barcode', size=20, required=True),            
+        'barcode': fields.char('Barcode', size=20, readonly=True),            
         'name': fields.char('Name', size=100, required=True),                    
         'type': fields.many2one('asset.type','Type', required=True),
         'status': fields.many2one('asset.status','Status', required=True),
         'label': fields.boolean('Labeled'),
+        
+        'image1': fields.binary('Image 1'),
+        'image2': fields.binary('Image 2'),
+        'image3': fields.binary('Image 3'),
+        'image4': fields.binary('Image 4'),
+        'image5': fields.binary('Image 5'),
         
         'model': fields.char('Model', size=200),            
         'serial_number': fields.char('Serial Number', size=200),            
@@ -110,4 +116,64 @@ class asset_assets(osv.osv):
         'pi_month': fields.selection(get_month_selection,'PI Month'),
         'pi_date': fields.date('PI Date'),        
     }        
+    
+    def _check_unique_insesitive(self, cr, uid, ids, context=None):
+        sr_ids = self.search(cr, 1 , [], context=context)
+        lst = [x.name.lower() for x in self.browse(cr, uid, sr_ids, context=context) if x.name and x.id not in ids]
+        for self_obj in self.browse(cr, uid, ids, context=context):
+            if self_obj.name and self_obj.name.lower() in  lst:
+                return False
+            return True
+        
+    _sql_constraints = [('asset_name_unique', 'unique(name)', 'Asset name already exists'),]
+    _constraints = [(_check_unique_insesitive, 'Asset name already exists', ['name'])]
+    
+    def _get_company(self, cr, uid, id, context):
+        obj = self.pool.get('itms.company')
+        ids = []
+        ids.append(id)
+        return obj.read(cr, uid, ids,[], context)    
+        
+    def _get_department(self, cr, uid, id, context):				
+        obj = self.pool.get('hr.department')
+        ids = []
+        ids.append(id)
+        return obj.read(cr, uid, ids, [], context)    
+    
+    def _get_asset_type(self, cr, uid, id, context):				
+        obj = self.pool.get('asset.type')
+        ids = []
+        ids.append(id)
+        return obj.read(cr, uid, ids, [], context)      
+    
+    def _generate_barcode(self,cr,uid,values,context):    
+        company_id = values['company']
+        companys = self._get_company(cr,uid,company_id,context)
+        company = companys[0]
+        print company
+        
+        department_id = values['department']
+        departments = self._get_department(cr,uid,department_id,context)        
+        department = departments[0]
+        
+        type_id = values['type']
+        types = self._get_asset_type(cr,uid,type_id,context)    
+        type = types[0]
+        
+        return company['company_id'] + department['department_code'] + type['type_id']
+        
+    def create(self, cr, uid, values, context=None):		                        
+        prefix = self._generate_barcode(cr,uid,values,context)    
+        sequence = self.pool.get('ir.sequence').get(cr, uid, 'asset.barcode.sequence')    
+        barcode = prefix + sequence
+        values.update({'barcode':barcode})
+	return super(asset_assets, self).create(cr, uid, values, context = context)
+    
+    def _maintenance_asset(self, cr, uid, context=None):
+        print 'Start Maintenance Asset'
+        ids = self.search(cr, uid, [('ismaintenance','=',True)])
+        assets = self.read(cr, uid, ids, [], context)
+        for asset in assets:
+            print asset
+                
 asset_assets()

@@ -2,3 +2,6 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_itms_asset_type_manager,itms.asset.type.manager,model_asset_type,base.group_itms_manager,1,1,1,1
 access_itms_asset_status_manager,itms.asset.status.manager,model_asset_status,base.group_itms_manager,1,1,1,1
 access_itms_asset_assets_manager,itms.asset.assets.manager,model_asset_assets,base.group_itms_manager,1,1,1,1
+access_itms_asset_type_operator,itms.asset.type.operator,model_asset_type,base.group_itms_operator,1,0,0,0
+access_itms_asset_status_operator,itms.asset.status.operator,model_asset_status,base.group_itms_operator,1,0,0,0
+access_itms_asset_assets_operator,itms.asset.assets.operator,model_asset_assets,base.group_itms_operator,1,0,0,0

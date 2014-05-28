@@ -81,7 +81,7 @@
                         <page string="Purchase">
                             <field name="purchase_order"/>
                             <field name="purchase_date"/>
-                            <field name="supplier"/>
+                            <field name="supplier" domain="[('supplier','=',True)]"/>
                             <field name="warranty"/>
                             <field name="decomission_date"/>
                         </page>
@@ -100,6 +100,19 @@
                             <field name="maint_date"/>
                             <field name="pi_month"/>
                             <field name="pi_date"/>
+                        </page>
+                        <page string="Image">
+                            <field name="image1" widget="image"/>
+                            <field name="image2" widget="image"/>
+                            <field name="image3" widget="image"/>
+                            <field name="image4" widget="image"/>
+                            <field name="image5" widget="image"/>
+                        </page>
+                        <page string="Hardware">
+                            
+                        </page>
+                        <page string="Software">
+                            
                         </page>
                     </notebook>
                 </form>
@@ -144,7 +157,18 @@
                 </search>
             </field>
         </record>        
-                                        
+                                      
+        <record id="sequence_asset_barcode_type" model="ir.sequence.type">
+            <field name="name">Asset Barcode</field>
+            <field name="code">asset.barcode.sequence</field>
+        </record>
+        
+        <record id="sequence_asset_barcode" model="ir.sequence">
+            <field name="name">Asset Sequence Barcode</field>
+            <field name="code">asset.barcode.sequence</field>            
+            <field name="padding" eval="5"/>
+        </record>
+          
         <!-- ASSETS/ACTION -->
 	<record model="ir.actions.act_window" id="action_asset_type">
             <field name="name">Asset Type</field>
