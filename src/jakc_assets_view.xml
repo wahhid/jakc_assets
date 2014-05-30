@@ -101,11 +101,11 @@
                             <field name="pi_date"/>
                         </page>
                         <page string="Image">
-                            <field name="image1" widget="image"/>
-                            <field name="image2" widget="image"/>
-                            <field name="image3" widget="image"/>
-                            <field name="image4" widget="image"/>
-                            <field name="image5" widget="image"/>
+                            <field name="image1" widget="image" img_height="150" img_width="200"/>
+                            <field name="image2" widget="image" img_height="150" img_width="200"/>
+                            <field name="image3" widget="image" img_height="150" img_width="200"/>
+                            <field name="image4" widget="image" img_height="150" img_width="200"/>
+                            <field name="image5" widget="image" img_height="150" img_width="200"/>
                         </page>
                         <page string="Hardware">
                             <field name="name"/>
