@@ -81,7 +81,7 @@ class asset_assets(osv.osv):
         )    
     _columns = {
         'barcode': fields.char('Barcode', size=20, readonly=True),            
-        'name': fields.char('Name', size=100, required=True),                    
+        'name': fields.char('Name', size=100),                    
         'type': fields.many2one('asset.type','Type', required=True),
         'status': fields.many2one('asset.status','Status', required=True),
         'label': fields.boolean('Labeled'),
@@ -109,7 +109,7 @@ class asset_assets(osv.osv):
         
         'ismaintenance' : fields.boolean('Is Maintenance'),
         'maint_owner': fields.many2one('hr.employee','Technician'),
-        'repeat': fields.selection([('01','Daily'),('02','Monthly'),('03','Quaterly'),('04','Half Yearly'),('05','Yearly')],'Repeat'),
+        'repeat': fields.selection([('1','Daily'),('2','Monthly'),('3','Quaterly'),('4','Half Yearly'),('5','Yearly')],'Repeat'),
         'maint_day': fields.selection(get_day_selection,'Day'),        
         'maint_month': fields.selection(get_month_selection,'Month'),
         'maint_date': fields.date('Maintenance Date'),
