@@ -26,6 +26,15 @@ class asset_status(osv.osv):
     }    
 asset_status()
 
+class asset_location(osv.osv):
+    _name = "asset.location"
+    _description = "Asset Location"
+    _columns = {
+        'name': fields.char('Location', size=100, required=True),            
+    }
+
+asset_location()
+
 class asset_assets(osv.osv):
     _name = "asset.assets"
     _description = "Assets"
@@ -84,6 +93,7 @@ class asset_assets(osv.osv):
         'name': fields.char('Name', size=100),                    
         'type': fields.many2one('asset.type','Type', required=True),
         'status': fields.many2one('asset.status','Status', required=True),
+        'location': fields.many2one('asset.location','Location'),
         'label': fields.boolean('Labeled'),
         
         'image1': fields.binary('Image 1'),
