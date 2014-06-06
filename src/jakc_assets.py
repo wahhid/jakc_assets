@@ -146,7 +146,7 @@ class asset_assets(osv.osv):
             return True
         
     _sql_constraints = [('asset_name_unique', 'unique(name)', 'Name already exists')]
-    _constraints = [(_check_unique_insesitive, 'Asset name already exists', ['name'])]
+    #_constraints = [(_check_unique_insesitive, 'Asset name already exists', ['name'])]
     
     def _get_company(self, cr, uid, id, context):
         obj = self.pool.get('itms.company')
