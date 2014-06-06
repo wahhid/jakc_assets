@@ -192,9 +192,9 @@ class asset_assets(osv.osv):
 	return super(asset_assets, self).create(cr, uid, values, context = context)
     
     def write(self, cr, uid, ids, values, context):
-        name = values['name'].upper()
-        values.update({'name':name})
-        return super(asset_assets, self).write(cr, uid, ids, values, context)
+        if 'name' in values:
+            values['name'] = values['name'].upper()                
+        return super(asset_assets, self).write(cr, uid, ids, values, context = context)
     
     def _maintenance_asset(self, cr, uid, context=None):
         print 'Start Maintenance Asset'
