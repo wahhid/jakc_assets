@@ -83,6 +83,35 @@
             </field>
         </record>
                                 
+                                
+        <!-- ASSETS/SOFTWARE -->
+		
+        <record model="ir.ui.view" id="view_asset_software_form">
+            <field name="name">asset.software.form</field>
+            <field name="model">asset.software</field>						
+            <field name="type">form</field>						
+            <field name="arch" type="xml">
+                <form string="Asset Software">  
+                    <group>                            
+                        <field name="name"/>
+                        <field name="managed"/>                            
+                    </group>
+                </form>
+            </field>
+        </record>
+		
+        <record model="ir.ui.view" id="view_asset_software_tree">
+            <field name="name">asset.software.tree</field>
+            <field name="model">asset.software</field>			
+            <field name="type">tree</field>						
+            <field name="arch" type="xml">
+                <tree string="Asset Software">
+                    <field name="name"/>		
+                    <field name="managed"/>		
+                </tree>
+            </field>
+        </record>
+                                        
         <!-- ASSETS/ASSETS -->
 		
         <record model="ir.ui.view" id="view_asset_assets_form">
@@ -216,7 +245,13 @@
             <field name="res_model">asset.location</field>
             <field name="view_mode">tree,form</field>
         </record>		                
-                                
+        
+        <record model="ir.actions.act_window" id="action_asset_software">
+            <field name="name">Asset Softweare</field>
+            <field name="res_model">asset.software</field>
+            <field name="view_mode">tree,form</field>
+        </record>		                
+                                                                
         <record model="ir.actions.act_window" id="action_asset_assets">
             <field name="name">Assets</field>
             <field name="res_model">asset.assets</field>
@@ -225,10 +260,11 @@
                         
         
         <!-- ASSETS/MENU -->        
-        <menuitem id="asset_type_menu" name="Type" parent="base.assets_menu"  action="action_asset_type" sequence="1"/>
+        <menuitem id="asset_type_menu" name="Type" parent="base.assets_menu"  action="action_asset_type" sequence="1"/>        
         <menuitem id="asset_status_menu" name="Status" parent="base.assets_menu"  action="action_asset_status" sequence="2"/> 
         <menuitem id="asset_location_menu" name="Location" parent="base.assets_menu"  action="action_asset_location" sequence="3"/> 
-        <menuitem id="asset_assets_menu" name="Assets" parent="base.assets_menu"  action="action_asset_assets" sequence="4"/>        
+        <menuitem id="asset_software_menu" name="Software" parent="base.assets_menu"  action="action_asset_software" sequence="4"/> 
+        <menuitem id="asset_assets_menu" name="Assets" parent="base.assets_menu"  action="action_asset_assets" sequence="5"/>        
         	
     </data>                
 </openerp>

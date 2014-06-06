@@ -26,6 +26,16 @@ class asset_status(osv.osv):
     }    
 asset_status()
 
+
+class asset_software(osv.osv):
+    _name = "asset.software"
+    _description = "Asset Software"
+    _columns = {
+        'name': fields.char('Name', size=100, required=True),            
+        'managed': fields.boolean('Managed'),            
+    }    
+asset_software()
+
 class asset_location(osv.osv):
     _name = "asset.location"
     _description = "Asset Location"
@@ -135,7 +145,7 @@ class asset_assets(osv.osv):
                 return False
             return True
         
-    _sql_constraints = [('asset_name_unique', 'unique(name)', 'Name already exists'),('asset_barcode_unique','unique(barcode)','Barcode already exists ')]
+    _sql_constraints = [('asset_name_unique', 'unique(name)', 'Name already exists')]
     _constraints = [(_check_unique_insesitive, 'Asset name already exists', ['name'])]
     
     def _get_company(self, cr, uid, id, context):
