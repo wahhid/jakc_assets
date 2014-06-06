@@ -186,8 +186,8 @@ class asset_assets(osv.osv):
         prefix = self._generate_barcode(cr,uid,values,context)    
         sequence = self.pool.get('ir.sequence').get(cr, uid, 'asset.barcode.sequence')    
         barcode = prefix + sequence
-        name = values['name'].upper()
-        values.update({'name':name})
+        if 'name' in values:
+            values['name'] = values['name'].upper()                
         values.update({'barcode':barcode})
 	return super(asset_assets, self).create(cr, uid, values, context = context)
     
