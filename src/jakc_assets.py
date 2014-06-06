@@ -145,7 +145,7 @@ class asset_assets(osv.osv):
                 return False
             return True
         
-    _sql_constraints = [('asset_name_unique', 'unique(name)', 'Name already exists')]
+    _sql_constraints = [('asset_name_unique', 'unique(name)', 'Name already exists'),('asset_barcode_unique', 'unique(barcode)', 'Barcode already exists')]
     #_constraints = [(_check_unique_insesitive, 'Asset name already exists', ['name'])]
     
     def _get_company(self, cr, uid, id, context):
@@ -186,8 +186,15 @@ class asset_assets(osv.osv):
         prefix = self._generate_barcode(cr,uid,values,context)    
         sequence = self.pool.get('ir.sequence').get(cr, uid, 'asset.barcode.sequence')    
         barcode = prefix + sequence
+        name = values['name'].upper()
+        values.update({'name':name})
         values.update({'barcode':barcode})
 	return super(asset_assets, self).create(cr, uid, values, context = context)
+    
+    def write(self, cr, uid, ids, values, context):
+        name = values['name'].upper()
+        values.update({'name':name})
+        return super(asset_assets, self).write(cr, uid, ids, values, context)
     
     def _maintenance_asset(self, cr, uid, context=None):
         print 'Start Maintenance Asset'
