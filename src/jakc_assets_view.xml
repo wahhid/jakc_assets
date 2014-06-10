@@ -164,10 +164,26 @@
                             <field name="image5" widget="image" img_height="150" img_width="200"/>
                         </page>
                         <page string="Hardware">
-                            <field name="name"/>
+                            <field name="name" colspan="4"/>
+                            <field name="os" colspan="4"/>
+                            <field name="processor" colspan="4"/>
+                            <field name="memory_ids" colspan="4">
+                                <tree>
+                                    <field name="banklabel"/>
+                                    <field name="capacity"/>
+                                    <field name="devicelocator"/>
+                                </tree>
+                            </field>
+                            <field name="harddisk_ids" colspan="4">
+                                <tree>
+                                    <field name="caption"/>
+                                    <field name="size"/>                                    
+                                </tree>                                
+                            </field>
+                            
                         </page>
                         <page string="Software">
-                            
+                            <field name="assets_software_ids" colspan="4" nolabel="1"/>
                         </page>
                     </notebook>
                 </form>

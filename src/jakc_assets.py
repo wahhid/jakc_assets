@@ -36,6 +36,38 @@ class asset_software(osv.osv):
     }    
 asset_software()
 
+class asset_assets_memory(osv.osv):
+    _name = "asset.assets.memory"
+    _description = "Assets Memory"
+    _columns = {
+        'assets_id': fields.many2one('asset.assets', 'Memory'),
+        'banklabel': fields.char('Bank Label',size=100),
+        'capacity': fields.char('Capacity',size=100),
+        'devicelocator': fields.char('Locator',size=100),
+    }
+
+asset_assets_memory()
+
+class asset_assets_disk(osv.osv):
+    _name = "asset.assets.disk"
+    _description = "Assets Disk"
+    _columns = {
+        'assets_id': fields.many2one('asset.assets', 'Physical Disk'),
+        'caption': fields.char('Caption',size=100),
+        'size': fields.char('Size',size=100),        
+    }
+
+asset_assets_disk()
+    
+class asset_assets_software(osv.osv):
+    _name = "asset.assets.software"
+    _description = "Assets Software"    
+    _columns = {
+        'assets_id': fields.many2one('asset.assets', 'Softwares'),
+        'sofware_id': fields.many2one('asset.software','Software'),
+    }
+asset_assets_software()
+
 class asset_location(osv.osv):
     _name = "asset.location"
     _description = "Asset Location"
@@ -100,7 +132,6 @@ class asset_assets(osv.osv):
         )    
     _columns = {
         'barcode': fields.char('Barcode', size=20, readonly=True),            
-        'name': fields.char('Name', size=100),                    
         'type': fields.many2one('asset.type','Type', required=True),
         'status': fields.many2one('asset.status','Status', required=True),
         'location': fields.many2one('asset.location','Location'),
@@ -135,6 +166,14 @@ class asset_assets(osv.osv):
         'maint_date': fields.date('Maintenance Date'),
         'pi_month': fields.selection(get_month_selection,'PI Month'),
         'pi_date': fields.date('PI Date'),        
+        
+        'name': fields.char('Name', size=100),                    
+        'os': fields.char('Operating System', size=200),
+        'processor': fields.char('Processor', size=200),
+        'memory_ids': fields.one2many('asset.assets.memory', 'assets_id', 'Memory'),
+        'harddisk_ids': fields.one2many('asset.assets.disk', 'assets_id', 'Physical Disk'),
+        
+        'assets_software_ids': fields.one2many('asset.assets.software', 'assets_id', 'Softwares'),
     }        
     
     def _check_unique_insesitive(self, cr, uid, ids, context=None):
