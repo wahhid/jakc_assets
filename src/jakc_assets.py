@@ -222,15 +222,16 @@ class asset_assets(osv.osv):
         return company['company_id'] + department['department_code'] + type['type_id']
         
     def create(self, cr, uid, values, context=None):		                        
+        if 'name' in values:
+            values['name'] = values['name'].upper()                
         prefix = self._generate_barcode(cr,uid,values,context)    
         sequence = self.pool.get('ir.sequence').get(cr, uid, 'asset.barcode.sequence')    
         barcode = prefix + sequence
-        if 'name' in values:
-            values['name'] = values['name'].upper()                
         values.update({'barcode':barcode})
 	return super(asset_assets, self).create(cr, uid, values, context = context)
     
-    def write(self, cr, uid, ids, values, context):
+    def write(self, cr, uid, ids, values, context=None):
+        print "write asset"
         if 'name' in values:
             values['name'] = values['name'].upper()                
         return super(asset_assets, self).write(cr, uid, ids, values, context = context)

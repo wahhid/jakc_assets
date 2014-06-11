@@ -201,7 +201,8 @@
                     <field name="type"/>                           
                     <field name="company"/>                           
                     <field name="department"/>                           
-                    <field name="owner"/>  		
+                    <field name="owner"/>  	
+                    <field name="location"/>  		
                     <field name="status"/>  		
                 </tree>
             </field>
