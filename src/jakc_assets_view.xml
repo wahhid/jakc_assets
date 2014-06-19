@@ -185,7 +185,7 @@
                         <page string="Software">
                             <field name="assets_software_ids" colspan="4" nolabel="1">
                                 <tree>
-                                    <field name='sofware_id'>
+                                    <field name='sofware_id'/>
                                 </tree>
                             </field>
                         </page>
