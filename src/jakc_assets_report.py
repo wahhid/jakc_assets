@@ -10,7 +10,7 @@ class assets_detail_report(osv.osv_memory):
     def generate_report(self, cr, uid, ids, context=None):
         params = self.browse(cr, uid, ids, context=context)
         param = params[0]   
-        serverUrl = 'http://172.16.139.139:8888/jasperserver'
+        serverUrl = 'http://172.16.0.3:8080/jasperserver'
         j_username = 'itms_operator'
         j_password = 'itms123'
         ParentFolderUri = '/itms'
