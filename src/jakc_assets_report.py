@@ -6,10 +6,6 @@ _logger = logging.getLogger(__name__)
 
 class assets_detail_report(osv.osv_memory):
     _name = "assets.detail.report"
-    _columns = {
-        'start_date' : fields.date('Start Date', required=True),
-        'end_date' : fields.date('End Date', required=True)
-    } 
     
     def generate_report(self, cr, uid, ids, context=None):
         params = self.browse(cr, uid, ids, context=context)
