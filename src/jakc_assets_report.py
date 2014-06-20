@@ -27,5 +27,5 @@ class assets_detail_report(osv.osv_memory):
             'target': 'new' 
         }
         
-asset_detail_report()
+assets_detail_report()
 
