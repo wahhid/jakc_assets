@@ -1,1 +1,2 @@
 import jakc_assets
+import jakc_assets_report

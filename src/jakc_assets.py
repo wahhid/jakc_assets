@@ -63,7 +63,7 @@ class asset_assets_software(osv.osv):
     _name = "asset.assets.software"
     _description = "Assets Software"    
     _columns = {
-        'assets_id': fields.many2one('asset.assets', 'Softwares'),
+        'assets_id': fields.many2one('asset.assets', 'Asset'),
         'sofware_id': fields.many2one('asset.software','Software'),
     }
 asset_assets_software()
