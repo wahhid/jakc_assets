@@ -11,7 +11,7 @@
         <menuitem id="asset_status_menu" name="Status" parent="base.assets_menu"  action="action_asset_status" sequence="2"/> 
         <menuitem id="asset_location_menu" name="Location" parent="base.assets_menu"  action="action_asset_location" sequence="3"/> 
         <menuitem id="asset_software_menu" name="Software" parent="base.assets_menu"  action="action_asset_software" sequence="4"/> 
-        <menuitem id="asset
+        <menuitem id="asset_assets_menu" name="Assets" parent="base.assets_menu"  action="action_asset_assets" sequence="5"/>
         
         <!-- Helpdesk Reporting Menu -->        
         <menuitem name="Assets Detail Report" id="assets_detail_report_menu" parent="base.assets_report_menu" action="action_assets_detail_report_form"/>

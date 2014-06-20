@@ -14,16 +14,14 @@
                     </footer>
                 </form>                                
             </field>
-        </record>
-        
+        </record>        
         <record id="action_assets_detail_report_form" model="ir.actions.act_window">
             <field name="name">Assets Detail Report</field>
             <field name="res_model">assets.detail.report</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="target">new</field>
-        </record>
-                                               
+        </record>                                               
     </data>
 </openerp>
 
