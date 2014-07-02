@@ -13,9 +13,11 @@
         <menuitem id="asset_software_menu" name="Software" parent="base.assets_menu"  action="action_asset_software" sequence="4"/> 
         <menuitem id="asset_assets_menu" name="Assets" parent="base.assets_menu"  action="action_asset_assets" sequence="5"/>
         
-        <!-- Helpdesk Reporting Menu -->        
+        <!-- Asset Reporting Menu -->        
         <menuitem name="Assets Detail Report" id="assets_detail_report_menu" parent="base.assets_report_menu" action="action_assets_detail_report_form"/>
-        
+        <menuitem name="Assets By Company Report" id="assets_detail_report_menu" parent="base.assets_report_menu" action="action_assets_detail_report_form"/>        
+        <menuitem name="Assets By Department Report" id="assets_detail_report_menu" parent="base.assets_report_menu" action="action_assets_detail_report_form"/>
+        <menuitem name="Assets By Category Report" id="assets_detail_report_menu" parent="base.assets_report_menu" action="action_assets_detail_report_form"/>
         
         
     </data>

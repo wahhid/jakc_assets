@@ -1,6 +1,9 @@
 from openerp.osv import fields, osv
 from datetime import datetime
 
+
+maint_requester_email = 'whidayat@jakc.com'
+
 class asset_category(osv.osv):
     _name = "asset.category"
     _description = "Asset Category"
@@ -176,6 +179,22 @@ class asset_assets(osv.osv):
         'assets_software_ids': fields.one2many('asset.assets.software', 'assets_id', 'Softwares'),
     }        
     
+    def maint_schedule(self, cr, uid, context=None):
+        day = datetime.today().day
+        month = datetime.today().month
+        assets_ids = self.pool.get('asset.assets').search(cr, uid, [('ismaintenance','=',True)], context=context)
+        
+    def pi_schedule(self, cr, uid, context=None):
+        employee_ids = self.pool.get('hr_employee').search(cr, uid, [('work_email','=',maint_requester_email)], context=context)
+        employee = self.pool.get('hr.employee').browse(cr, uid, employee_ids[0], context=context)
+        
+        month = datetime.today().month
+        assets_ids = self.pool.get('asset.assets').search(cr, uid, [('pi_month','=',month)], context=context)
+        assetss = self.pool.get('asset.assets').browse(cr, uid, assets_ids, context=context)        
+        for assets in assetss:
+            ticket_id = self.pool.get('helpdesk.ticket').create()
+            
+        
     def _check_unique_insesitive(self, cr, uid, ids, context=None):
         sr_ids = self.search(cr, 1 , [], context=context)
         lst = [x.name.lower() for x in self.browse(cr, uid, sr_ids, context=context) if x.name and x.id not in ids]
