@@ -35,7 +35,8 @@ class asset_software(osv.osv):
     _description = "Asset Software"
     _columns = {
         'name': fields.char('Name', size=100, required=True),            
-        'managed': fields.boolean('Managed'),            
+        'managed': fields.boolean('Managed'),     
+        'assets_ids': fields.one2many('asset.assets.software','sofware_id','Assets'),
     }    
 asset_software()
 
@@ -87,11 +88,12 @@ class asset_maintenance(osv.osv):
     _columns = {
         'ticket_id': fields.integer('Ticket ID'),
         'assets_id': fields.integer('Assets ID'),
-        'maint_date': fields.date('Maintenance Date'),
+        'maint_date': fields.datetime('Maintenance Date'),
         'hidden_state':  fields.selection([('draft','Wait for Maintenance'),('done','Finish')],'Hidden Status'),
         'state': fields.selection([('draft','Wait for Maintenance'),('done','Finish')],'Status'),
     }
     _defaults = {                
+        'maint_date': lambda *a: fields.datetime.now(),
         'hidden_state': lambda *a: 'draft',
         'state': lambda *a: 'draft',        
     }    
@@ -220,20 +222,24 @@ class asset_assets(osv.osv):
         assetss = self.pool.get('asset.assets').browse(cr, uid, assets_ids, context=context)        
         for assets in assetss:
             if maint_repeat == '1':            
-                self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
+                ticket_id = self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
             elif maint_repeat == '2':                
                 if assets.maint_day == day:
-                    self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
+                    ticket_id = self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
             elif maint_repeat == '3':
                 if assets.maint_day == day and assets.maint_month == 3 or assets.maint_month == 6 or assets.maint_month == 9 or assets.main_month == 12:
-                    self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
+                    ticket_id = self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
             elif maint_repeat == '4':
                 if assets.maint_day == day and assets.maint_month == 6 or assets.main_month == 12:
-                    self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
+                    ticket_id = self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
             elif maint_repeat == '5':
                 if assets.maint_day == day and assets.maint_month == month:
-                    self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
-        
+                    ticket_id = self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
+            maintenance = {}
+            maintenance['ticket_id'] = ticket_id
+            maintenance['assets_id'] = assets.id            
+            self.pool.get('assets.maintenance').create(cr, uid ,maintenance, context=context)
+                        
     def pi_schedule(self, cr, uid, context=None):
         day = datetime.today().day
         month = datetime.today().month    

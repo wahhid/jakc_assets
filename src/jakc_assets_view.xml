@@ -94,8 +94,17 @@
                 <form string="Asset Software">  
                     <group>                            
                         <field name="name"/>
-                        <field name="managed"/>                            
+                        <field name="managed"/>                                                    
                     </group>
+                    <notebook colspan="4">
+                        <page string="Assets">
+                            <field name="assets_ids" widget="one2many_list">
+                                <tree string="Assets">
+                                    <field name="assets_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
                 </form>
             </field>
         </record>
