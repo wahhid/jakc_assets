@@ -81,6 +81,15 @@ class asset_location(osv.osv):
 
 asset_location()
 
+class asset_scan(osv.osv):
+    _name = "asset.scan"
+    _description = "Asset Scan"
+    _columns = {
+        'assets_id': fields.integer('Assets ID'),
+        'scan_date': fields.datetime('Scan Date'),
+    }
+
+asset_scan()
 
 class asset_maintenance(osv.osv):
     _name = "asset.maintenance"
@@ -198,7 +207,7 @@ class asset_assets(osv.osv):
         'harddisk_ids': fields.one2many('asset.assets.disk', 'assets_id', 'Physical Disk'),        
         'assets_software_ids': fields.one2many('asset.assets.software', 'assets_id', 'Softwares'),
         'assets_maintenance_ids': fields.one2many('asset.maintenance','assets_id','Maintenances'),
-        
+        'assets_scan_ids': fields.one2many('asset.scan','assets_id','Scan'),
     }        
     
     
