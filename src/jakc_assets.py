@@ -81,12 +81,6 @@ class asset_location(osv.osv):
 asset_location()
 
 
-class asset_maintenance_periode(osv.osv):
-    _name = "asset.maintenance.periode"
-    _description = ""
-    
-asset_maintenance_periode()
-
 class asset_maintenance(osv.osv):
     _name = "asset.maintenance"
     _description = "Asset Maintenance"
@@ -94,7 +88,7 @@ class asset_maintenance(osv.osv):
         'ticket_id': fields.integer('Ticket ID'),
         'assets_id': fields.integer('Assets ID'),
         'maint_date': fields.date('Maintenance Date'),
-        'hidden_state':  fields.selection([('draft','Wait for Maintenance'),('done','Finish')],'Status'),
+        'hidden_state':  fields.selection([('draft','Wait for Maintenance'),('done','Finish')],'Hidden Status'),
         'state': fields.selection([('draft','Wait for Maintenance'),('done','Finish')],'Status'),
     }
     _defaults = {                
@@ -103,8 +97,6 @@ class asset_maintenance(osv.osv):
     }    
     
 asset_maintenance()
-
-
 
 
 class asset_assets(osv.osv):
@@ -201,9 +193,10 @@ class asset_assets(osv.osv):
         'os': fields.char('Operating System', size=200),
         'processor': fields.char('Processor', size=200),
         'memory_ids': fields.one2many('asset.assets.memory', 'assets_id', 'Memory'),
-        'harddisk_ids': fields.one2many('asset.assets.disk', 'assets_id', 'Physical Disk'),
-        
+        'harddisk_ids': fields.one2many('asset.assets.disk', 'assets_id', 'Physical Disk'),        
         'assets_software_ids': fields.one2many('asset.assets.software', 'assets_id', 'Softwares'),
+        'assets_maintenance_ids': fields.one2many('asset.maintenance','assets_id','Maintenances'),
+        
     }        
     
     
