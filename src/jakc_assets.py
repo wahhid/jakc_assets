@@ -80,6 +80,33 @@ class asset_location(osv.osv):
 
 asset_location()
 
+
+class asset_maintenance_periode(osv.osv):
+    _name = "asset.maintenance.periode"
+    _description = ""
+    
+asset_maintenance_periode()
+
+class asset_maintenance(osv.osv):
+    _name = "asset.maintenance"
+    _description = "Asset Maintenance"
+    _columns = {
+        'ticket_id': fields.integer('Ticket ID'),
+        'assets_id': fields.integer('Assets ID'),
+        'maint_date': fields.date('Maintenance Date'),
+        'hidden_state':  fields.selection([('draft','Wait for Maintenance'),('done','Finish')],'Status'),
+        'state': fields.selection([('draft','Wait for Maintenance'),('done','Finish')],'Status'),
+    }
+    _defaults = {                
+        'hidden_state': lambda *a: 'draft',
+        'state': lambda *a: 'draft',        
+    }    
+    
+asset_maintenance()
+
+
+
+
 class asset_assets(osv.osv):
     _name = "asset.assets"
     _description = "Assets"
@@ -179,15 +206,46 @@ class asset_assets(osv.osv):
         'assets_software_ids': fields.one2many('asset.assets.software', 'assets_id', 'Softwares'),
     }        
     
+    
+    def _create_maint_ticket(self, cr, uid, employee_id, assets_name, context=None):
+        #create ticket
+        ticket_data = {}
+        #Define Employee
+        ticket_data['employee'] = employee_id
+        #Define Subject
+        ticket_data['name'] = 'Maintenance - ' + assets_name
+        #Define Description                              
+        ticket_data['description'] = "Please do maintenance for " + assets_name
+        ticket_id = self.pool.get('helpdesk.ticket').create(cr, uid, ticket_data,context=context)           
+        return ticket_id
+        
     def maint_schedule(self, cr, uid, context=None):
         day = datetime.today().day
-        month = datetime.today().month
+        month = datetime.today().month    
+        employee = self._get_employee_by_email(cr, uid, 'whidayat@taman-anggrek-mall.com', context=context)    
         assets_ids = self.pool.get('asset.assets').search(cr, uid, [('ismaintenance','=',True)], context=context)
+        assetss = self.pool.get('asset.assets').browse(cr, uid, assets_ids, context=context)        
+        for assets in assetss:
+            if maint_repeat == '1':            
+                self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
+            elif maint_repeat == '2':                
+                if assets.maint_day == day:
+                    self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
+            elif maint_repeat == '3':
+                if assets.maint_day == day and assets.maint_month == 3 or assets.maint_month == 6 or assets.maint_month == 9 or assets.main_month == 12:
+                    self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
+            elif maint_repeat == '4':
+                if assets.maint_day == day and assets.maint_month == 6 or assets.main_month == 12:
+                    self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
+            elif maint_repeat == '5':
+                if assets.maint_day == day and assets.maint_month == month:
+                    self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
         
     def pi_schedule(self, cr, uid, context=None):
+        day = datetime.today().day
+        month = datetime.today().month    
         employee_ids = self.pool.get('hr_employee').search(cr, uid, [('work_email','=',maint_requester_email)], context=context)
-        employee = self.pool.get('hr.employee').browse(cr, uid, employee_ids[0], context=context)
-        
+        employee = self.pool.get('hr.employee').browse(cr, uid, employee_ids[0], context=context)                
         month = datetime.today().month
         assets_ids = self.pool.get('asset.assets').search(cr, uid, [('pi_month','=',month)], context=context)
         assetss = self.pool.get('asset.assets').browse(cr, uid, assets_ids, context=context)        
