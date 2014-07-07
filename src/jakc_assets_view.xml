@@ -228,6 +228,7 @@
                     <field name="owner"/>  	
                     <field name="location"/>  		
                     <field name="status"/>  		
+                    <field name="last_scan"/>  		
                 </tree>
             </field>
         </record>

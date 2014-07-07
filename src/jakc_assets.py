@@ -1,7 +1,8 @@
 from openerp.osv import fields, osv
 from datetime import datetime
+import logging
 
-
+_logger = logging.getLogger(__name__)
 maint_requester_email = 'whidayat@jakc.com'
 
 class asset_category(osv.osv):
@@ -203,44 +204,72 @@ class asset_assets(osv.osv):
     }        
     
     
-    def _create_maint_ticket(self, cr, uid, employee_id, assets_name, context=None):
+    def _create_maint_ticket(self, cr, uid, employee, assets, context=None):
         #create ticket
         ticket_data = {}
-        #Define Employee
-        ticket_data['employee'] = employee_id
-        #Define Subject
-        ticket_data['name'] = 'Maintenance - ' + assets_name
-        #Define Description                              
+        ticket_data['employee'] = employee.id
+        ticket_data['name'] = 'Maintenance - ' + assets.name
+        ticket_data['asset'] = assets.id
         ticket_data['description'] = "Please do maintenance for " + assets_name
         ticket_id = self.pool.get('helpdesk.ticket').create(cr, uid, ticket_data,context=context)           
         return ticket_id
+    
+    def get_employee_by_email(self, cr, uid, email_from, context=None):
+        obj = self.pool.get('hr.employee')
+        ids = obj.search(cr, uid, [('work_email','=',email_from)], context=context)
+        if len(ids) > 0:
+            employees = obj.browse(cr, uid, ids, context=context)
+            return employees[0]
+        else:
+            return None    
         
     def maint_schedule(self, cr, uid, context=None):
+        _logger.info("Start Maintenance Schedule")
         day = datetime.today().day
         month = datetime.today().month    
-        employee = self._get_employee_by_email(cr, uid, 'whidayat@taman-anggrek-mall.com', context=context)    
+        employee = self.get_employee_by_email(cr, uid, 'whidayat@jakc.com', context=context)    
         assets_ids = self.pool.get('asset.assets').search(cr, uid, [('ismaintenance','=',True)], context=context)
         assetss = self.pool.get('asset.assets').browse(cr, uid, assets_ids, context=context)        
         for assets in assetss:
+            _logger.info("Start Process " + assets.name)
+            maint_repeat = assets.repeat
             if maint_repeat == '1':            
-                ticket_id = self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
+                ticket_id = self._create_maint_ticket(cr, uid, employee, assets, context=context)
+                maintenance = {}
+                maintenance['ticket_id'] = ticket_id
+                maintenance['assets_id'] = assets.id            
+                self.pool.get('asset.maintenance').create(cr, uid ,maintenance, context=context)                
             elif maint_repeat == '2':                
                 if assets.maint_day == day:
-                    ticket_id = self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
+                    ticket_id = self._create_maint_ticket(cr, uid, employee, assets, context=context)
+                    maintenance = {}
+                    maintenance['ticket_id'] = ticket_id
+                    maintenance['assets_id'] = assets.id            
+                    self.pool.get('asset.maintenance').create(cr, uid ,maintenance, context=context)                    
             elif maint_repeat == '3':
                 if assets.maint_day == day and assets.maint_month == 3 or assets.maint_month == 6 or assets.maint_month == 9 or assets.main_month == 12:
-                    ticket_id = self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
+                    ticket_id = self._create_maint_ticket(cr, uid, employee, assets, context=context)
+                    maintenance = {}
+                    maintenance['ticket_id'] = ticket_id
+                    maintenance['assets_id'] = assets.id            
+                    self.pool.get('asset.maintenance').create(cr, uid ,maintenance, context=context)
             elif maint_repeat == '4':
                 if assets.maint_day == day and assets.maint_month == 6 or assets.main_month == 12:
-                    ticket_id = self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
+                    ticket_id = self._create_maint_ticket(cr, uid, employee, assets, context=context)
+                    maintenance = {}
+                    maintenance['ticket_id'] = ticket_id
+                    maintenance['assets_id'] = assets.id            
+                    self.pool.get('asset.maintenance').create(cr, uid ,maintenance, context=context)                    
             elif maint_repeat == '5':
                 if assets.maint_day == day and assets.maint_month == month:
-                    ticket_id = self._create_maint_ticket(cr, uid, employee.id, assets.name, context=context)
-            maintenance = {}
-            maintenance['ticket_id'] = ticket_id
-            maintenance['assets_id'] = assets.id            
-            self.pool.get('assets.maintenance').create(cr, uid ,maintenance, context=context)
-                        
+                    ticket_id = self._create_maint_ticket(cr, uid, employee, assets, context=context)
+                    maintenance = {}
+                    maintenance['ticket_id'] = ticket_id
+                    maintenance['assets_id'] = assets.id            
+                    self.pool.get('asset.maintenance').create(cr, uid ,maintenance, context=context)
+            _logger.info("End Process " + assets.name)
+        _logger.info("End Maintenance Schedule")    
+        
     def pi_schedule(self, cr, uid, context=None):
         day = datetime.today().day
         month = datetime.today().month    
