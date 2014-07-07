@@ -81,16 +81,6 @@ class asset_location(osv.osv):
 
 asset_location()
 
-class asset_scan(osv.osv):
-    _name = "asset.scan"
-    _description = "Asset Scan"
-    _columns = {
-        'assets_id': fields.integer('Assets ID'),
-        'scan_date': fields.datetime('Scan Date'),
-    }
-
-asset_scan()
-
 class asset_maintenance(osv.osv):
     _name = "asset.maintenance"
     _description = "Asset Maintenance"
@@ -168,7 +158,7 @@ class asset_assets(osv.osv):
         'type': fields.many2one('asset.type','Type', required=True),
         'status': fields.many2one('asset.status','Status', required=True),
         'location': fields.many2one('asset.location','Location'),
-        'label': fields.boolean('Labeled'),
+        'label': fields.boolean('Labeled'),        
         
         'image1': fields.binary('Image 1'),
         'image2': fields.binary('Image 2'),
@@ -203,11 +193,13 @@ class asset_assets(osv.osv):
         'name': fields.char('Name', size=100),                    
         'os': fields.char('Operating System', size=200),
         'processor': fields.char('Processor', size=200),
+        'last_scan': fields.datetime('Last Scan'),
+        'scan_status': fields.selection([('success','Success'),('failed','Failed')],'Scan Status'),
         'memory_ids': fields.one2many('asset.assets.memory', 'assets_id', 'Memory'),
         'harddisk_ids': fields.one2many('asset.assets.disk', 'assets_id', 'Physical Disk'),        
         'assets_software_ids': fields.one2many('asset.assets.software', 'assets_id', 'Softwares'),
         'assets_maintenance_ids': fields.one2many('asset.maintenance','assets_id','Maintenances'),
-        'assets_scan_ids': fields.one2many('asset.scan','assets_id','Scan'),
+        
     }        
     
     

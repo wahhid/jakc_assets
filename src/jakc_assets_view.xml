@@ -206,12 +206,9 @@
                             </field>
                         </page>
                         <page string="Scan">
-                            <field name="assets_scan_ids" colspan="4" nolabel="1">
-                                <tree>
-                                    <field name='scan_date'/>                                    
-                                </tree>
-                            </field>
-                        </page>                        
+                            <field name="last_scan"/>
+                            <field name="scan_status"/>
+                        </page>                 
                     </notebook>
                 </form>
             </field>
