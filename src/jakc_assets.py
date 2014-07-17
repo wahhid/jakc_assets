@@ -38,6 +38,7 @@ class asset_software(osv.osv):
         'name': fields.char('Name', size=100, required=True),            
         'managed': fields.boolean('Managed'),     
         'assets_ids': fields.one2many('asset.assets.software','sofware_id','Assets'),
+        'detail_ids': fields.one2many('asset.software.detail','software_id','Details'),
     }    
 asset_software()
 
@@ -50,6 +51,8 @@ class asset_assets_memory(osv.osv):
         'capacity': fields.char('Capacity',size=100),
         'devicelocator': fields.char('Locator',size=100),
     }
+    _defaults = {
+        'assets_id': lambda self, cr, uid, context: context.get('assets_id', False),}
 
 asset_assets_memory()
 
@@ -61,7 +64,9 @@ class asset_assets_disk(osv.osv):
         'caption': fields.char('Caption',size=100),
         'size': fields.char('Size',size=100),        
     }
-
+    _defaults = {
+        'assets_id': lambda self, cr, uid, context: context.get('assets_id', False),}
+        
 asset_assets_disk()
     
 class asset_assets_software(osv.osv):
@@ -69,9 +74,27 @@ class asset_assets_software(osv.osv):
     _description = "Assets Software"    
     _columns = {
         'assets_id': fields.many2one('asset.assets', 'Asset'),
-        'sofware_id': fields.many2one('asset.software','Software'),
+        'sofware_id': fields.many2one('asset.software','Software'),        
     }
+    _defaults = {
+        'assets_id': lambda self, cr, uid, context: context.get('assets_id', False),}
+    
+    
 asset_assets_software()
+
+class asset_software_detail(osv.osv):
+    _name = "asset.software.detail"
+    _description = "Asset Software Detail"
+    _columns = {
+        'software_id': fields.many2one('asset.assets.software','Software'),
+        'license_key': fields.char("License Key", size=50),
+        'product_key': fields.char("Product Key", size=50),        
+    }    
+    _defaults = {
+        'software_id': lambda self, cr, uid, context: context.get('software_id', False),}
+        
+asset_software_detail()
+
 
 class asset_location(osv.osv):
     _name = "asset.location"
@@ -113,7 +136,7 @@ class asset_assets(osv.osv):
             ('5','5'),
             ('6','6'),
             ('7','7'),
-            ('8','8'),
+            ('8','8 '),
             ('9','9'),
             ('10','10'),
             ('11','11'),

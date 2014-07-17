@@ -104,6 +104,14 @@
                                 </tree>
                             </field>
                         </page>
+                        <page string="Details">
+                            <field name="detail_ids" widget="one2many_list">
+                                <tree string="Detail">
+                                    <field name="license_key"/>
+                                    <field name="product_key"/>
+                                </tree>                                                                
+                            </field>
+                        </page>
                     </notebook>
                 </form>
             </field>
@@ -121,6 +129,35 @@
             </field>
         </record>
                                         
+        <!-- ASSETS/SOFTWARE DETAIL-->
+		
+        <record model="ir.ui.view" id="view_asset_software_detail_form">
+            <field name="name">asset.software.detail.form</field>
+            <field name="model">asset.software.detail</field>						
+            <field name="type">form</field>						
+            <field name="arch" type="xml">
+                <form string="Asset Software Detail">  
+                    <group>                            
+                        <field name="license_key"/>
+                        <field name="product_key"/>                                                    
+                    </group>
+                </form>
+            </field>
+        </record>
+		
+        <record model="ir.ui.view" id="view_asset_software_detail_tree">
+            <field name="name">asset.software.detail.tree</field>
+            <field name="model">asset.software.detail</field>			
+            <field name="type">tree</field>						
+            <field name="arch" type="xml">
+                <tree string="Asset Software Detail">
+                    <field name="software_id"/>		
+                    <field name="license_key"/>		
+                    <field name="product_key"/>		
+                </tree>
+            </field>
+        </record>
+                                           
         <!-- ASSETS/ASSETS -->
 		
         <record model="ir.ui.view" id="view_asset_assets_form">
