@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="windows-1252"?>
 <openerp>
-    <data>
-	
-        
+    <data>	        
         <!-- ASSETS/TYPE -->
 		
         <record model="ir.ui.view" id="view_asset_type_form">
